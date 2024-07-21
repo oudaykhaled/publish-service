@@ -1,0 +1,14 @@
+{
+    "RabbitMQ": {
+        "HostName": "192.168.178.231",
+        "Port": 5672,
+        "UserName": "guest",
+        "Password": "guest",
+        "Exchange": "Publisher"
+    },
+    "Redis":{
+        "HostName": "192.168.178.231",
+        "Port": 6379
+    }
+
+}
