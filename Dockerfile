@@ -12,7 +12,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the source code into the container.
-COPY main.go .
+COPY . .
 
 # Build the Go app as a static binary.
 # The -o main flag specifies the output file (main) of the build process.
