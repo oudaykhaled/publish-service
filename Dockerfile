@@ -5,14 +5,13 @@ FROM golang:1.22.5 as builder
 # Set the Current Working Directory inside the container.
 WORKDIR /app
 
-# Copy go mod and sum files.
-COPY go.mod go.sum ./
-
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed.
-RUN go mod download
-
-# Copy the source code into the container.
+# Copy the source code and configuration file into the container.
 COPY . .
+
+# Initialize a new module and tidy up dependencies.
+# Replace 'example.com/myapp' with your actual module path.
+RUN go mod init example.com/myapp && \
+    go mod tidy
 
 # Build the Go app as a static binary.
 # The -o main flag specifies the output file (main) of the build process.
@@ -30,7 +29,7 @@ WORKDIR /root/
 
 # Copy the Pre-built binary file from the previous stage and the config file.
 COPY --from=builder /app/main .
-COPY config.json .
+COPY --from=builder /app/config.json .
 
 # Expose port 8080 to the outside world.
 EXPOSE 8080
