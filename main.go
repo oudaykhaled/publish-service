@@ -131,7 +131,7 @@ func ensureExchangeExists(ch *amqp.Channel, exchangeName string) error {
 	return ch.ExchangeDeclare(
 		exchangeName, // exchange name
 		"fanout",     // type
-		true,         // durable
+		false,        // durable
 		false,        // auto-deleted
 		false,        // internal
 		false,        // no-wait
