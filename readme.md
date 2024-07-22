@@ -26,8 +26,6 @@ Ensure you have the following installed:
 
 bash
 
-Copy code
-
 `git clone https://github.com/yourusername/publish-service.git
 cd publish-service` 
 
@@ -37,7 +35,6 @@ Edit the `config.json` file to match your environment:
 
 json
 
-Copy code
 
 `{
   "RabbitMQ": {
@@ -59,8 +56,6 @@ Build and run the Docker container:
 
 bash
 
-Copy code
-
 `docker build -t publish-service:latest .
 docker run -d -p 8080:8080 publish-service:latest` 
 
@@ -80,16 +75,13 @@ To set up a local development environment:
 1.  **Install Dependencies**:
     
     bash
-    
-    Copy code
+
     
     `go mod tidy` 
     
 2.  **Run the Application**:
     
     bash
-    
-    Copy code
     
     `go run main.go` 
     
