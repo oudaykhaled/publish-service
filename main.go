@@ -130,7 +130,7 @@ func ensureExchangeExists(ch *amqp.Channel, exchangeName string) error {
 	// Attempt to declare the exchange, which is idempotent and will not recreate if it already exists with the same parameters
 	return ch.ExchangeDeclare(
 		exchangeName, // exchange name
-		"topic",      // type
+		"fanout",     // type
 		true,         // durable
 		false,        // auto-deleted
 		false,        // internal
