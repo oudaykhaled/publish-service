@@ -126,6 +126,19 @@ func getListenersHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(response)
 }
 
+func ensureExchangeExists(ch *amqp.Channel, exchangeName string) error {
+	// Attempt to declare the exchange, which is idempotent and will not recreate if it already exists with the same parameters
+	return ch.ExchangeDeclare(
+		exchangeName, // exchange name
+		"topic",      // type
+		true,         // durable
+		false,        // auto-deleted
+		false,        // internal
+		false,        // no-wait
+		nil,          // arguments
+	)
+}
+
 func listenToRabbitMQ() {
 	log.Println("Connecting to RabbitMQ...")
 	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/",
@@ -140,6 +153,11 @@ func listenToRabbitMQ() {
 		log.Fatalf("Failed to open a channel: %v", err)
 	}
 	defer ch.Close()
+
+	// Ensure the exchange exists
+	if err := ensureExchangeExists(ch, config.RabbitMQ.Exchange); err != nil {
+		log.Fatalf("Failed to declare an exchange: %v", err)
+	}
 
 	// Declare a queue
 	q, err := ch.QueueDeclare(
